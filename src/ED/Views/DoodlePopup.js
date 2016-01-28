@@ -48,7 +48,7 @@ ED.Views.DoodlePopup = (function() {
 		this.drawing = drawing;
 		this.container = container;
 		this.containerWidth = container.outerWidth();
-
+		
 		this.registerForNotifications();
 		this.createToolbar();
 		this.createHelpButton();

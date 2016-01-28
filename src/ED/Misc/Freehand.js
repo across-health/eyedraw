@@ -74,7 +74,7 @@ ED.Freehand.prototype.setPropertyDefaults = function() {
 		kind: 'derived',
 		type: 'colourString',
 		list: ['FF0000FF', '00FF00FF', '0000FFFF'],
-		animate: true
+		animate: false
 	};
 	this.parameterValidationArray['filled'] = {
 		kind: 'derived',
@@ -85,12 +85,12 @@ ED.Freehand.prototype.setPropertyDefaults = function() {
 		kind: 'derived',
 		type: 'string',
 		list: ['Thin', 'Medium', 'Thick'],
-		animate: true
+		animate: false
 	};
 	this.parameterValidationArray['labelText'] = {
 		kind: 'derived',
 		type: 'freeText',
-		animate: true
+		animate: false
 	};
 }
 

@@ -1175,6 +1175,10 @@ ED.Doodle.prototype.setParameterWithAnimation = function(_parameter, _value, _up
 	// Can doodle animate this parameter?
 	if (this.parameterValidationArray[_parameter]['animate']) {
 		var valueArray = this.dependentParameterValues(_parameter, _value);
+
+		if (!valueArray || !valueArray.length) {
+			ED.errorHandler('ED.Doodle', 'setParameterWithAnimation', 'dependentParameterValues not set for animated parameter ' + _parameter);
+		}
 		for (var parameter in valueArray) {
 			// Read delta in units per frame
 			var delta = this.parameterValidationArray[parameter]['delta'];

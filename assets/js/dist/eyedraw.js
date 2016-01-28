@@ -2481,7 +2481,6 @@ ED.Drawing.prototype.eventHandler = function(_type, _doodleId, _className, _elem
 
 					// Check validity of new value, only trim the value if change event
 					var validityArray = doodle.validateParameter(parameter, _value, (_type === 'onchange'));
-
 					// If new value is valid, set it
 					if (validityArray.valid) {
 
@@ -4388,6 +4387,10 @@ ED.Doodle.prototype.setParameterWithAnimation = function(_parameter, _value, _up
 	// Can doodle animate this parameter?
 	if (this.parameterValidationArray[_parameter]['animate']) {
 		var valueArray = this.dependentParameterValues(_parameter, _value);
+
+		if (!valueArray || !valueArray.length) {
+			ED.errorHandler('ED.Doodle', 'setParameterWithAnimation', 'dependentParameterValues not set for animated parameter ' + _parameter);
+		}
 		for (var parameter in valueArray) {
 			// Read delta in units per frame
 			var delta = this.parameterValidationArray[parameter]['delta'];
@@ -6923,7 +6926,7 @@ ED.Freehand.prototype.setPropertyDefaults = function() {
 		kind: 'derived',
 		type: 'colourString',
 		list: ['FF0000FF', '00FF00FF', '0000FFFF'],
-		animate: true
+		animate: false
 	};
 	this.parameterValidationArray['filled'] = {
 		kind: 'derived',
@@ -6934,12 +6937,12 @@ ED.Freehand.prototype.setPropertyDefaults = function() {
 		kind: 'derived',
 		type: 'string',
 		list: ['Thin', 'Medium', 'Thick'],
-		animate: true
+		animate: false
 	};
 	this.parameterValidationArray['labelText'] = {
 		kind: 'derived',
 		type: 'freeText',
-		animate: true
+		animate: false
 	};
 }
 

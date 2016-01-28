@@ -68,8 +68,9 @@
 				}
 			}
 		}
+		@debug $i index($ignore, #{$i});
 		// Output the classes for this image.
-		@if index($ignore, #{$i}) == false {
+		@if index($ignore, #{$i}) == null {
 			// Default.
 			.#{$prefixClass}-#{$i} {
 				background-position: sprite-position($spriteMap, $i);

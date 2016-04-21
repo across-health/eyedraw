@@ -6604,6 +6604,76 @@ ED.Categories['SubretinalPFCL'] = {
 	complication: 'Subretinal PFCL'
 };
 
+
+
+/**
+ *	Mouse test - used for testing detection of mouse pointer
+ *
+ * @class  EyePadDrawing
+ * @property {String} className Name of doodle subclass
+ * @param {Drawing} _drawing
+ * @param {Object} _parameterJSON
+ */
+ED.EyePadDrawing = function(_drawing, _parameterJSON) {
+    // Set classname
+    this.className = "EyePadDrawing";
+
+    this.image = null;
+
+    this.savedParameterArray = [ 'image'];
+    // Call superclass constructor
+    ED.Doodle.call(this, _drawing, _parameterJSON);
+}
+
+/**
+ * Sets superclass and constructor
+ */
+ED.EyePadDrawing.prototype = new ED.Doodle;
+ED.EyePadDrawing.prototype.constructor = ED.EyePadDrawing;
+ED.EyePadDrawing.superclass = ED.Doodle.prototype;
+
+/**
+ * Sets default properties
+ */
+ED.EyePadDrawing.prototype.setPropertyDefaults = function() {
+    this.isMoveable = false;
+    this.parameterValidationArray['image'] = {
+        type: 'freeText'
+    };
+};
+
+/**
+ * Draws doodle or performs a hit test if a Point parameter is passed
+ *
+ * @param {Point} _point Optional point in canvas plane, passed if performing hit test
+ */
+ED.EyePadDrawing.prototype.draw = function(_point) {
+    //if (_point) console.log(_point.x, _point.y);
+
+    // Get context
+    var ctx = this.drawing.context;
+
+    // Call draw method in superclass
+    //ED.EyePadDrawing.superclass.draw.call(this, _point);
+
+    var img = new Image();
+    img.src = this.image;
+
+    ctx.scale(1,1);
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.drawImage(img,0,0, this.drawing.canvas.width, this.drawing.canvas.height);
+
+    // Draw boundary path (also hit testing)
+    this.drawBoundary(_point);
+
+    if (this.isClicked) console.log(_point.x, _point.y);
+
+    // Non boundary paths here
+    if (this.drawFunctionMode == ED.drawFunctionMode.Draw) {}
+
+    // Return value indicating successful hittest
+    return this.isClicked;
+}
 /**
  * OpenEyes
  *

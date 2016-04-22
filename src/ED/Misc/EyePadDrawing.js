@@ -62,22 +62,20 @@ ED.EyePadDrawing.prototype.draw = function(_point) {
         var img = new Image();
         img.src = this.image;
 
-        //ctx.scale(1, 1);
-        //ctx.setTransform(1, 0, 0, 1, 0, 0);
-        //ctx.clearRect(0, 0, this.drawing.canvas.width, this.drawing.canvas.height);
         var imgData = this.getImageData();
-        for (var i = 0; i < imgData.data.length; i += 4) {
-            if (imgData.data[i+3] != 0) {
-                this._pixelData[0] = imgData.data[i];
-                this._pixelData[1] = imgData.data[i+1];
-                this._pixelData[2] = imgData.data[i+2];
-                this._pixelData[3] = imgData.data[i+3];
-                var y = Math.floor((i / 4) / this.drawing.canvas.width);
-                var x = (i/4) - (y * this.drawing.canvas.width);
-                ctx.putImageData(this._pixelImage, x, y);
+        if (imgData) {
+            for (var i = 0; i < imgData.data.length; i += 4) {
+                if (imgData.data[i + 3] != 0) {
+                    this._pixelData[0] = imgData.data[i];
+                    this._pixelData[1] = imgData.data[i + 1];
+                    this._pixelData[2] = imgData.data[i + 2];
+                    this._pixelData[3] = imgData.data[i + 3];
+                    var y = Math.floor((i / 4) / this.drawing.canvas.width);
+                    var x = (i / 4) - (y * this.drawing.canvas.width);
+                    ctx.putImageData(this._pixelImage, x, y);
+                }
             }
         }
-        //ctx.drawImage(img, 0, 0, this.drawing.canvas.width, this.drawing.canvas.height);
     }
 
     // Return value indicating successful hittest
@@ -102,7 +100,7 @@ ED.EyePadDrawing.prototype.initialiseGhostCanvas = function()
 
 ED.EyePadDrawing.prototype.getImageData = function()
 {
-    if (!this.imageContext) {
+    if (this.image && !this.imageContext) {
         this.initialiseGhostCanvas();
     }
 
@@ -119,7 +117,7 @@ ED.EyePadDrawing.prototype.drawBoundary = function(_point) {
 
 
         var index = (this.drawing.canvas.height * _point.y) + _point.x;
-        var hitTest = imgData.data[index+3] != 0;
+        var hitTest = imgData != null && imgData.data[index+3] != 0;
 
         //// Workaround for Mozilla bug 405300 https://bugzilla.mozilla.org/show_bug.cgi?id=405300
         //if (ED.isFirefox()) {
